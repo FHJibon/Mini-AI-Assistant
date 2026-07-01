@@ -1,14 +1,13 @@
 import logging
 import time
 from pinecone import Pinecone, ServerlessSpec
-from openai import AsyncOpenAI
 import app.config as config
+from app.services.embed import get_embeddings
 
 logger = logging.getLogger(__name__)
 
 pc = Pinecone(api_key=config.PINECONE_API_KEY)
 index = None
-openai = AsyncOpenAI(api_key=config.OPENAI_API_KEY)
 
 def create_pinecone_index_if_not_exists():
     global index
@@ -23,10 +22,6 @@ def create_pinecone_index_if_not_exists():
             time.sleep(5)
     index = pc.Index(name)
     logger.info("Pinecone index is ready")
-
-async def get_embeddings(texts: list[str]) -> list[list[float]]:
-    res = await openai.embeddings.create(input=texts, model=config.OPENAI_EMBEDDING_MODEL)
-    return [item.embedding for item in res.data]
 
 async def upsert_documents(chunks: list[dict], batch_size: int = 100):
     global index

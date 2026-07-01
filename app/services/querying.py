@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 
 def get_order_status(order_id: str) -> dict:
-    """Get the status and estimated delivery date of an order using its order ID."""
     try:
         file_path = os.path.join(DATA_DIR, "orders.json")
         if not os.path.exists(file_path):
@@ -28,7 +27,6 @@ def get_order_status(order_id: str) -> dict:
         return {"error": f"Error retrieving order status: {str(e)}"}
 
 def search_product(name: str) -> dict:
-    """Search for a product by its name to get its price and stock availability."""
     try:
         file_path = os.path.join(DATA_DIR, "products.json")
         if not os.path.exists(file_path):
@@ -53,40 +51,3 @@ def search_product(name: str) -> dict:
     except Exception as e:
         logger.error(f"Error reading products database: {e}")
         return {"error": f"Error searching products: {str(e)}"}
-
-OPENAI_TOOLS = [
-    {
-        "type": "function",
-        "function": {
-            "name": "get_order_status",
-            "description": "Retrieve the status and estimated delivery date for a specific order by its order ID.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "order_id": {
-                        "type": "string",
-                        "description": "The unique identifier of the order, e.g., 'ORD001'.",
-                    }
-                },
-                "required": ["order_id"],
-            },
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "search_product",
-            "description": "Search the product database by product name to get price and stock availability details.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "The name of the product or keywords to search for, e.g., 'Wireless Mouse'.",
-                    }
-                },
-                "required": ["name"],
-            },
-        }
-    }
-]

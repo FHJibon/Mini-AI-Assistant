@@ -1,11 +1,10 @@
 import logging
 import json
-from app.services.tools import get_order_status, search_product
+from app.services.querying import get_order_status, search_product
 
 logger = logging.getLogger(__name__)
 
 def execute_tool_calls(tool_calls) -> list[dict]:
-    """Execute a list of tool calls and return them formatted as message dictionaries."""
     tool_messages = []
     if not tool_calls:
         return tool_messages

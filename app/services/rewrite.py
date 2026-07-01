@@ -1,11 +1,10 @@
 import logging
-from app.services.vector_store import openai
+from app.services.embed import openai
 import app.config as config
 
 logger = logging.getLogger(__name__)
 
 async def condense_query(query_text: str, history: list[dict]) -> str:
-    """Rewrite query to be context-aware based on the latest 5 turns of conversation history."""
     if not history:
         return query_text
     try:

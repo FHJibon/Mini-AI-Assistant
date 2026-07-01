@@ -68,8 +68,8 @@ docker compose up --build
 
 *   **Ingestion Pipeline**: Scans `.pdf`, `.txt`, and `.md` files in the data directory, loads raw text (using `pypdf` for PDFs), splits them into overlapping chunks using `tiktoken`, generates embeddings with OpenAI, and stores them in Pinecone.
 *   **Retrieval Approach**: Query vector embeddings are computed via OpenAI and compared against the Pinecone index using cosine similarity to retrieve the top $K$ context chunks.
-*   **Memory Implementation**: Conversational history is loaded and saved to local session JSON files. A contextual `query_rewriter` service uses OpenAI to rewrite the latest user message into a standalone query based on recent chat history (resolving pronouns/context).
-*   **Tool-Calling Strategy**: Utilizes OpenAI native Function Calling schemas for product search and order lookup. The pipeline routes requests to `tool_executor.py`, executing queries against local JSON files (`orders.json` and `products.json`).
+*   **Memory Implementation**: Conversational history is loaded and saved to local session JSON files. A contextual `rewrite.py` service uses OpenAI to rewrite the latest user message into a standalone query based on recent chat history (resolving pronouns/context).
+*   **Tool-Calling Strategy**: Utilizes OpenAI native Function Calling schemas for product search and order lookup. The pipeline routes requests to `executor.py`, executing queries against local JSON files (`orders.json` and `products.json`).
 *   **Prompt Design**: Leverages system prompts tailored to the classified intent:
     - *Retrieval*: Instructs the model to rely only on context and reply exactly: `"I couldn't find that information in the uploaded documents."` if the answer is missing.
     - *Tool Call / Direct*: Commands standard guidelines for helpfulness, tone, and conciseness.

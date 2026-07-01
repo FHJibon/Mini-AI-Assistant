@@ -2,8 +2,9 @@ import os
 import shutil
 import logging
 from fastapi import UploadFile, HTTPException
-from app.services.document import load_and_chunk_documents
-from app.services.vector_store import create_pinecone_index_if_not_exists, upsert_documents
+from app.services.loader import load_documents_directory
+from app.services.chunker import chunk_documents
+from app.services.vector import create_pinecone_index_if_not_exists, upsert_documents
 import app.config as config
 
 logger = logging.getLogger(__name__)
@@ -37,13 +38,13 @@ async def run_ingestion() -> int:
         
     os.makedirs(DATA_DIR, exist_ok=True)
     logger.info(f"Scanning for PDF, TXT, and Markdown documents in '{DATA_DIR}'...")
-    chunks = load_and_chunk_documents(DATA_DIR)
-    
+    loaded_pages = load_documents_directory(DATA_DIR)
+    chunks = chunk_documents(loaded_pages)
     if not chunks:
         logger.info("No chunks were generated. Placed files are missing or empty.")
         return 0
-        
     logger.info(f"Generated {len(chunks)} text chunks. Uploading to Pinecone...")
+
     create_pinecone_index_if_not_exists()
     await upsert_documents(chunks)
     logger.info("Ingestion completed successfully!")
