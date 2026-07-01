@@ -26,22 +26,21 @@ async def get_rag_response(query_text: str, user_id: str = "default", session_id
             logger.info("Routing query to RETRIEVAL pipeline.")
             matching_chunks = await query_vector_store(condensed_query, top_k=top_k)
             system_content = (
-                "Answer the user's question using ONLY the provided document context and conversation history.\n"
+                "Answer the user's question using ONLY the provided document context.\n"
                 "Rules:\n"
-                "1. Rely ONLY on the provided document context and conversation history. Do not use external knowledge.\n"
-                "2. If the answer cannot be found in the context or conversation history, you MUST reply exactly: "
+                "1. If the answer cannot be found in the document context, you MUST reply exactly: "
                 "'I couldn't find that information in the uploaded documents.'\n"
-                "3. Keep the answer direct, friendly, and concise (max 2 sentences, humanized style).\n\n"
+                "2. Keep the answer direct, friendly, and concise (max 2 sentences, humanized style).\n\n"
                 f"Document Context:\n{'\n\n'.join(matching_chunks)}"
             )
         elif intent == "TOOL_CALL":
             logger.info("Routing query to TOOL_CALL pipeline.")
             use_tools = OPENAI_TOOLS
             system_content = (
-                "You are an assistant with access to mock tools for order status inquiries and product searches.\n"
+                "You are a helpful assistant with access to order status inquiries and product searches.\n"
                 "Rules:\n"
-                "1. If the user is asking about a product or order, invoke the appropriate tool.\n"
-                "2. If a tool returns an error or no results, explain that clearly to the user.\n"
+                "1. Use the tools to retrive information when asked about orders or products.\n"
+                "2. Reply simply about the product satutes and nothing else or asking about anything\n"
                 "3. Keep the answer direct, friendly, and concise (max 2 sentences, humanized style)."
             )
         else: 
@@ -49,9 +48,8 @@ async def get_rag_response(query_text: str, user_id: str = "default", session_id
             system_content = (
                 "You are a helpful and friendly AI assistant.\n"
                 "Rules:\n"
-                "1. Answer the user directly, leveraging conversation history (such as names or preferences) if present.\n"
-                "2. Do not attempt to search files or invoke mock tools.\n"
-                "3. Keep the answer direct, friendly, and concise (max 2 sentences, humanized style)."
+                "1. Answer the user directly, leveraging conversation history, if present.\n"
+                "2. Keep the answer direct, friendly, and concise (max 2 sentences, humanized style)."
             )
 
         messages = [{"role": "system", "content": system_content}]

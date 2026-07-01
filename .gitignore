@@ -1,3 +1,10 @@
+# Ignoring uploaded data and conversation history
+app/data/conversations/*
+app/data/*.pdf
+app/data/*.txt
+app/data/*.md
+
+# Python environment
 __pycache__/
 .Python
 build/

@@ -10,14 +10,17 @@ async def classify_query_intent(query_text: str, history: list[dict]) -> str:
         history_summary = "\n".join([f"{msg['role'].capitalize()}: {msg['content']}" for msg in history[-3:]])
         
         system_content = (
-            "You are an intent classifier for an AI Assistant. "
+            "You are a high-precision intent classifier for an AI Assistant. "
             "Your task is to classify the user's latest query into one of three categories:\n\n"
-            "1. 'RETRIEVAL': The query requests specific information, guides, policies, or facts that would typically "
-            "be found in uploaded documents.\n"
-            "2. 'TOOL_CALL': The query requests checking order status (requires an Order ID like ORDXXX) "
-            "or searching the product inventory for prices and stock availability.\n"
-            "3. 'DIRECT': The query is a greeting, general chit-chat, a question about the conversation history "
-            "itself, or general system prompts.\n\n"
+            "1. 'RETRIEVAL': Select this when the query asks a factual question, requests an explanation of a concept, "
+            "asks for definitions of terms, seeks general knowledge, or inquires about policies. "
+            "All factual lookups and logical definition queries must be classified here to prevent the assistant "
+            "from answering directly using its own pre-trained knowledge.\n"
+            "2. 'TOOL_CALL': Select this when the query requests order status using an Order ID, "
+            "or searches product catalog details including prices and stock availability.\n"
+            "3. 'DIRECT': Select this strictly for simple greetings, expressions of thanks, closing salutations, "
+            "or queries requesting details from the active conversation history itself "
+            "Factual or informational queries must never be classified as DIRECT.\n\n"
             "Respond ONLY with a JSON object in this format: {\"intent\": \"RETRIEVAL\" | \"TOOL_CALL\" | \"DIRECT\"}. "
             "Do not include any explanation or extra characters."
         )
