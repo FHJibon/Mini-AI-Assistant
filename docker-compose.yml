@@ -1,0 +1,9 @@
+services:
+  mini-ai-assistant:
+    build: .
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/code
+    env_file:
+      - app/.env
