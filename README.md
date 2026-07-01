@@ -28,11 +28,9 @@ A modular RAG-powered AI Assistant built with FastAPI, Pinecone, and OpenAI. It 
 
 ### 1. Configure Environment
 Create a `.env` file in `app/` (or copy/rename `app/.env`) containing:
-```env
+```
 PINECONE_API_KEY=your_pinecone_key
-PINECONE_INDEX_NAME=your_pinecone_index
 OPENAI_API_KEY=your_openai_key
-OPENAI_MODEL=gpt-4o
 ```
 
 ### 2. Run with Docker
