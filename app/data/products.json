@@ -1,0 +1,22 @@
+[
+  { "name": "Wireless Mouse", "price": 2500, "stock": 12 },
+  { "name": "Mechanical Keyboard", "price": 6500, "stock": 5 },
+  { "name": "Core i5 Processor", "price": 15500, "stock": 15 },
+  { "name": "Ryzen 5 Processor", "price": 18500, "stock": 8 },
+  { "name": "Intel Motherboard", "price": 28500, "stock": 6 },
+  { "name": "Graphics Card", "price": 48000, "stock": 4 },
+  { "name": "DDR4 RAM", "price": 4800, "stock": 25 },
+  { "name": "NVMe SSD", "price": 12500, "stock": 10 },
+  { "name": "SATA HDD", "price": 6200, "stock": 18 },
+  { "name": "Power Supply", "price": 11500, "stock": 7 },
+  { "name": "PC Casing", "price": 9500, "stock": 11 },
+  { "name": "CPU Cooler", "price": 6800, "stock": 14 },
+  { "name": "IPS Monitor", "price": 22500, "stock": 9 },
+  { "name": "Gaming Mouse", "price": 5200, "stock": 20 },
+  { "name": "Gaming Headset", "price": 14500, "stock": 8 },
+  { "name": "Casing Fan", "price": 3500, "stock": 35 },
+  { "name": "Wi-Fi Card", "price": 4200, "stock": 12 },
+  { "name": "Capture Card", "price": 21000, "stock": 3 },
+  { "name": "Thermal Paste", "price": 1200, "stock": 50 },
+  { "name": "Webcam", "price": 5500, "stock": 14 }
+]
