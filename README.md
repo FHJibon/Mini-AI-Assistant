@@ -54,18 +54,14 @@ This Retrieval-Augmented Generation (RAG) approach significantly reduces halluci
 
 ## Memory Implementation
 
-Conversation history is stored per user session using local JSON files.
-
-Before executing retrieval or tool calling, the latest user query is rewritten into a standalone question using previous conversation history.
+Conversation history is stored per user session using local JSON files inside the `app/data/conversations/` directory. Before executing retrieval or tool calling, the latest user query is rewritten into a standalone question using previous conversation history.  
 
 This enables the assistant to resolve:
 
 1. Pronouns
 2. Follow-up questions
-3. Topic continuity
-4. User-specific references
+3. User-specific references
 
-without requiring the user to repeat context.
 
 ---
 
@@ -179,7 +175,7 @@ Used for:
 
 ---
 
-## Clone Repository
+## Clone The Repository
 
 ```
 git clone https://github.com/FHJibon/Mini-AI-Assistant.git
@@ -194,10 +190,9 @@ cd Mini-AI-Assistant
 
 Create a `.env` file inside the `app/` directory.
 
-```env
-OPENAI_API_KEY=your_openai_api_key
-
-PINECONE_API_KEY=your_pinecone_api_key
+```
+OPENAI_API_KEY=
+PINECONE_API_KEY=
 ```
 
 ---
@@ -222,9 +217,18 @@ Once the server is running, the interactive Swagger API documentation is availab
 
 ## Knowledge Ingestion
 
-### Upload Document
+### Upload and Ingest Documents
 
-`POST /api/ingest/upload`
+`POST /api/ingest`
+
+This endpoint:
+
+1. Accepts one or more files
+2. Skips documents already existing on disk
+3. Loads newly uploaded files
+4. Splits documents
+5. Generates embeddings
+6. Uploads vectors to Pinecone
 
 Supported formats
 
@@ -234,20 +238,7 @@ Supported formats
 
 ---
 
-### Generate Embeddings
-
-`POST /api/ingest/ingest`
-
-This endpoint:
-
-1. Loads uploaded files
-2. Splits documents
-3. Generates embeddings
-4. Uploads vectors to Pinecone
-
----
-
-> **Important:** Upload and ingest your documents before testing the chat. Please note that the ingestion process may take some time depending on document size.
+> **Important:** Upload and ingest your documents before testing the chat and also the ingestion process may take some time depending on document size.
 
 ---
 
@@ -263,14 +254,14 @@ This endpoint:
 {
   "user_id": "01",
   "session_id": "01",
-  "message": "Hi, my name is jibon"
+  "message": "Hi, I am Captain America"
 }
 ```
 
 #### Example Response:
 ```json
 {
-  "answer": "Nice to meet you, Jibon! How can I help you today?"
+  "answer": "Nice to meet you, Captain America! How can I help you today?"
 }
 ```
 
